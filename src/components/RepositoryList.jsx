@@ -57,7 +57,9 @@ const repositories = [
 const ItemSeparator = () => <View style={styles.separator} />
 
 const RepositoryList = () => {
-  const renderItem = ({ item }) => <RepositoryItem repository={item} />
+  const renderItem = ({ item }) => {
+    return <RepositoryItem repository={item} />
+  }
 
   return (
     <FlatList

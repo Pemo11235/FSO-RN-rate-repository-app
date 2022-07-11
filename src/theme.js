@@ -5,11 +5,12 @@ const theme = {
     primary: '#0366d6',
     white: '#fff',
     appBarBackground: '#24292e',
+    mainBackground: '#e1e4e8',
   },
   fontSizes: {
     body: 14,
     subheading: 16,
-    h1: 24,
+    h1: 20,
   },
   fonts: {
     main: 'System',
@@ -19,6 +20,11 @@ const theme = {
     bold: '700',
   },
   spacing: {
+    small: 4,
+    medium: 8,
+    large: 16,
+  },
+  radius: {
     small: 4,
     medium: 8,
     large: 16,
