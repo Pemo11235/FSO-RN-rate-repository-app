@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
   },
   rightColumn: {
     flexDirection: 'column',
+    width: '90%',
+    marginRight: theme.spacing.medium,
   },
   title: {
     fontSize: theme.fontSizes.h1,
