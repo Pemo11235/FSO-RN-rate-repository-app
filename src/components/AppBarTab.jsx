@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
     color: theme.colors.white,
     fontSize: theme.fontSizes.h1,
     padding: theme.spacing.small,
+    marginHorizontal: theme.spacing.large,
   },
 })
 
