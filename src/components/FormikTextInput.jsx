@@ -3,10 +3,14 @@ import { useField } from 'formik'
 
 import TextInput from './TextInput'
 import Text from './Text'
+import theme from '../theme'
 
 const styles = StyleSheet.create({
   errorText: {
-    marginTop: 5,
+    marginTop: theme.spacing.small,
+    marginBottom: theme.spacing.large,
+    paddingHorizontal: theme.spacing.medium,
+    color: theme.colors.error,
   },
 })
 
