@@ -1,6 +1,7 @@
-import Constants from 'expo-constants'
-import { Text, StyleSheet, View } from 'react-native'
+import { useQuery } from '@apollo/client'
+import { StyleSheet, View } from 'react-native'
 import { Navigate, Route, Routes } from 'react-router-native'
+import { AUTHETICATED } from '../graphql/queries'
 import theme from '../theme'
 import AppBar from './AppBar'
 import RepositoryList from './RepositoryList'
@@ -16,14 +17,28 @@ const styles = StyleSheet.create({
 })
 
 const Main = () => {
+  const { data, loading } = useQuery(AUTHETICATED, {
+    fetchPolicy: 'cache-and-network',
+  })
+
+  const isLoggedIn = data?.me?.username
+
   return (
     <View style={styles.container}>
       <AppBar />
       <Routes>
+        {!isLoggedIn && !loading && (
+          <Route path={'*'} element={<Navigate to={'/signin'} replace />} />
+        )}
+        {isLoggedIn && !loading && (
+          <Route
+            path={'*'}
+            element={<Navigate to={'/repositories'} replace />}
+          />
+        )}
         <Route path={'/signin'} element={<SignIn />} exact />
         <Route path={'/repositories'} element={<RepositoryList />} exact />
         <Route path={'/signout'} element={<SignOut />} exact />
-        <Route path={'*'} element={<Navigate to={'/signin'} replace />} />
       </Routes>
     </View>
   )
