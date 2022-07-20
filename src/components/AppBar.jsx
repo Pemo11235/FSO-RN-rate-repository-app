@@ -2,6 +2,10 @@ import { View, StyleSheet, ScrollView } from 'react-native'
 import Constants from 'expo-constants'
 import AppBarTab from './AppBarTab'
 import theme from '../theme'
+import { useQuery } from '@apollo/client'
+import { AUTHETICATED } from '../graphql/queries'
+import useAuthStorage from '../hooks/useAuthStorage'
+import { useMemo } from 'react'
 
 const styles = StyleSheet.create({
   container: {
@@ -14,11 +18,19 @@ const styles = StyleSheet.create({
 })
 
 const AppBar = () => {
+  const { data } = useQuery(AUTHETICATED, { fetchPolicy: 'cache-and-network' })
+  const authStorage = useAuthStorage()
+
+  const isLoggedIn = data?.me?.username
+
+  console.log('isLoggedIn: ', isLoggedIn)
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
-        <AppBarTab label={'Repositories'} />
-        <AppBarTab label={'Sign In'} />
+        {isLoggedIn && <AppBarTab label={'Repositories'} />}
+        {!isLoggedIn && <AppBarTab label={'Sign In'} />}
+        {isLoggedIn && <AppBarTab label={'Sign Out'} />}
       </ScrollView>
     </View>
   )
