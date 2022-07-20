@@ -6,6 +6,7 @@ import Button from './Button'
 import FormikTextInput from './FormikTextInput'
 import Text from './Text'
 import useSignIn from '../hooks/useSignIn'
+import AuthStorage from '../utils/authStorage'
 
 const styles = StyleSheet.create({
   container: {
@@ -22,14 +23,20 @@ const validationSchema = yup.object().shape({
 
 const SignIn = () => {
   const [signIn] = useSignIn()
+  const authStorage = new AuthStorage()
 
   const onSubmit = async ({ username, password }) => {
     try {
-      const { data } = await signIn({
+      const {
+        data: {
+          authenticate: { accessToken },
+        },
+      } = await signIn({
         username,
         password,
       })
-      console.log('submit', data)
+      await authStorage.setAccessToken(accessToken)
+      console.log('saved token: ', await authStorage.getAccessToken())
     } catch (error) {
       console.log(error)
     }
