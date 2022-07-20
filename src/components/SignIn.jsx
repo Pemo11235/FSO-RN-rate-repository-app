@@ -7,6 +7,8 @@ import FormikTextInput from './FormikTextInput'
 import Text from './Text'
 import useSignIn from '../hooks/useSignIn'
 import AuthStorage from '../utils/authStorage'
+import useAuthStorage from '../hooks/useAuthStorage'
+import { useNavigate } from 'react-router-native'
 
 const styles = StyleSheet.create({
   container: {
@@ -23,23 +25,20 @@ const validationSchema = yup.object().shape({
 
 const SignIn = () => {
   const [signIn] = useSignIn()
-  const authStorage = new AuthStorage()
+  const authStorage = useAuthStorage()
+  const navigate = useNavigate()
 
   const onSubmit = async ({ username, password }) => {
     try {
-      const {
-        data: {
-          authenticate: { accessToken },
-        },
-      } = await signIn({
+      await signIn({
         username,
         password,
       })
-      await authStorage.setAccessToken(accessToken)
-      console.log('saved token: ', await authStorage.getAccessToken())
+      navigate('/repositories')
     } catch (error) {
       console.log(error)
     }
+    console.log('saved token: ', await authStorage.getAccessToken())
   }
 
   return (

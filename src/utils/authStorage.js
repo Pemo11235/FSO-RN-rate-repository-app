@@ -11,12 +11,12 @@ class AuthStorage {
       `${this.namespace}:access_token`
     )
 
-    return accessToken || null
+    return accessToken
   }
 
   async setAccessToken(accessToken) {
     // Add the access token to the storage
-    accessToken && this.removeAccessToken()
+    accessToken && (await this.removeAccessToken())
     accessToken &&
       (await AsyncStorage.setItem(
         `${this.namespace}:access_token`,
