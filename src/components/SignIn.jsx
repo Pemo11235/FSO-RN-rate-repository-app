@@ -16,28 +16,12 @@ const styles = StyleSheet.create({
   },
 })
 
-const validationSchema = yup.object().shape({
-  username: yup.string().required('Username is required'),
-  password: yup.string().required('Password is required'),
-})
 
-const SignIn = () => {
-  const [signIn] = useSignIn()
-  const authStorage = useAuthStorage()
-  const navigate = useNavigate()
-
-  const onSubmit = async ({ username, password }) => {
-    try {
-      await signIn({
-        username,
-        password,
-      })
-      navigate('/repositories')
-    } catch (error) {
-      console.log(error)
-    }
-    console.log('saved token: ', await authStorage.getAccessToken())
-  }
+export const SignInContainer = ({ onSubmit }) => {
+  const validationSchema = yup.object().shape({
+    username: yup.string().required('Username is required'),
+    password: yup.string().required('Password is required'),
+  })
 
   return (
     <Formik
@@ -57,6 +41,27 @@ const SignIn = () => {
       )}
     </Formik>
   )
+}
+
+const SignIn = () => {
+  const [signIn] = useSignIn()
+  const authStorage = useAuthStorage()
+  const navigate = useNavigate()
+
+  const onSubmit = async ({ username, password }) => {
+    try {
+      await signIn({
+        username,
+        password,
+      })
+      navigate('/repositories')
+    } catch (error) {
+      console.log(error)
+    }
+    console.log('saved token: ', await authStorage.getAccessToken())
+  }
+
+  return <SignInContainer onSubmit={onSubmit} />
 }
 
 export default SignIn
