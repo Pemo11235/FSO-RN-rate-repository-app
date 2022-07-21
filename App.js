@@ -3,14 +3,20 @@ import { NativeRouter } from 'react-router-native'
 import Main from './src/components/Main'
 import createApolloClient from './src/utils/apolloClient'
 import Constants from 'expo-constants'
+import { AuthStorageProvider } from './src/contexts/AuthStorageContext'
+import AuthStorage from './src/utils/authStorage'
 
-const apolloClient = createApolloClient()
+const authStorage = new AuthStorage()
+const apolloClient = createApolloClient(authStorage)
+
 const App = () => {
   console.log(Constants.manifest.extra)
   return (
     <NativeRouter>
       <ApolloProvider client={apolloClient}>
-        <Main />
+        <AuthStorageProvider value={authStorage}>
+          <Main />
+        </AuthStorageProvider>
       </ApolloProvider>
     </NativeRouter>
   )
