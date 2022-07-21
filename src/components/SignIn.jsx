@@ -58,7 +58,6 @@ const SignIn = () => {
     } catch (error) {
       console.log(error)
     }
-    console.log('saved token: ', await authStorage.getAccessToken())
   }
 
   return <SignInContainer onSubmit={onSubmit} />

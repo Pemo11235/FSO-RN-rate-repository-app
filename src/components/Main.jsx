@@ -5,6 +5,7 @@ import { AUTHETICATED } from '../graphql/queries'
 import theme from '../theme'
 import AppBar from './AppBar'
 import RepositoryList from './RepositoryList'
+import RepositoryPage from './RepositoryPage'
 import SignIn from './SignIn'
 import SignOut from './SignOut'
 
@@ -38,6 +39,7 @@ const Main = () => {
         )}
         <Route path={'/signin'} element={<SignIn />} exact />
         <Route path={'/repositories'} element={<RepositoryList />} exact />
+        <Route path={'/:repositoryId'} element={<RepositoryPage />} exact />
         <Route path={'/signout'} element={<SignOut />} exact />
       </Routes>
     </View>

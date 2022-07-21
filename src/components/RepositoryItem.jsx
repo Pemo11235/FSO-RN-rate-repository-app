@@ -1,6 +1,10 @@
-import { Image, View, StyleSheet } from 'react-native'
+import { Image, View, StyleSheet, Linking } from 'react-native'
 import Text from './Text'
 import theme from '../theme'
+import { useParams } from 'react-router-native'
+import { useQuery } from '@apollo/client'
+import { GET_REPOSITORY } from '../graphql/queries'
+import Button from './Button'
 
 const styles = StyleSheet.create({
   container: {
@@ -67,8 +71,8 @@ const styles = StyleSheet.create({
   },
 })
 
-const RepositoryItem = ({
-  repository: {
+const RepositoryItem = ({ repository, isSelected = false }) => {
+  const {
     id,
     fullName,
     description,
@@ -78,8 +82,9 @@ const RepositoryItem = ({
     ratingAverage,
     reviewCount,
     ownerAvatarUrl,
-  },
-}) => {
+    url,
+  } = repository
+
   return (
     <View testID='repository-item' key={id} style={styles.container}>
       <View style={styles.firstRow}>
@@ -102,6 +107,9 @@ const RepositoryItem = ({
         <RepositorySecondRowData label='Reviews' value={reviewCount} />
         <RepositorySecondRowData label='Rating' value={ratingAverage} />
       </View>
+      {isSelected && (
+        <Button label={'Open on GitHub'} onPress={() => Linking.openURL(url)} />
+      )}
     </View>
   )
 }
