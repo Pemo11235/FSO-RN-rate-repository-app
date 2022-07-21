@@ -9,6 +9,7 @@ import Button from './Button'
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
+    marginBottom: theme.spacing.medium,
   },
   image: {
     width: 50,
