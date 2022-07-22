@@ -6,7 +6,7 @@ import theme from '../theme'
 const styles = StyleSheet.create({
   tab: {
     color: theme.colors.white,
-    fontSize: theme.fontSizes.h1,
+    fontSize: theme.fontSizes.h3,
     padding: theme.spacing.small,
     marginHorizontal: theme.spacing.large,
   },

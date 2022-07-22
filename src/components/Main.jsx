@@ -8,6 +8,7 @@ import RepositoryList from './RepositoryList'
 import SingleRepository from './SignleRepository'
 import SignIn from './SignIn'
 import SignOut from './SignOut'
+import Review from './Review'
 
 const styles = StyleSheet.create({
   container: {
@@ -41,6 +42,7 @@ const Main = () => {
         <Route path={'/repositories'} element={<RepositoryList />} exact />
         <Route path={'/:repositoryId'} element={<SingleRepository />} exact />
         <Route path={'/signout'} element={<SignOut />} exact />
+        <Route path={'/createreview'} element={<Review />} exact />
       </Routes>
     </View>
   )
