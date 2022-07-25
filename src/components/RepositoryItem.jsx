@@ -1,9 +1,6 @@
 import { Image, View, StyleSheet, Linking } from 'react-native'
 import Text from './Text'
 import theme from '../theme'
-import { useParams } from 'react-router-native'
-import { useQuery } from '@apollo/client'
-import { GET_REPOSITORY } from '../graphql/queries'
 import Button from './Button'
 
 const styles = StyleSheet.create({

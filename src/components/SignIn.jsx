@@ -5,7 +5,6 @@ import theme from '../theme'
 import Button from './Button'
 import FormikTextInput from './FormikTextInput'
 import useSignIn from '../hooks/useSignIn'
-import useAuthStorage from '../hooks/useAuthStorage'
 import { useNavigate } from 'react-router-native'
 
 const styles = StyleSheet.create({
@@ -15,7 +14,6 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing.large,
   },
 })
-
 
 export const SignInContainer = ({ onSubmit }) => {
   const validationSchema = yup.object().shape({
@@ -45,7 +43,6 @@ export const SignInContainer = ({ onSubmit }) => {
 
 const SignIn = () => {
   const [signIn] = useSignIn()
-  const authStorage = useAuthStorage()
   const navigate = useNavigate()
 
   const onSubmit = async ({ username, password }) => {

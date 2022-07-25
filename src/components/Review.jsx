@@ -4,8 +4,6 @@ import { Formik } from 'formik'
 import theme from '../theme'
 import Button from './Button'
 import * as yup from 'yup'
-import { useMutation, useQuery } from '@apollo/client'
-import { CREATE_REVIEW } from '../graphql/mutations'
 import useCreateReview from '../hooks/useCreateReview'
 import { useNavigate } from 'react-router-native'
 
