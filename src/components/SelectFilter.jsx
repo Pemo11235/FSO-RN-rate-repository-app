@@ -8,7 +8,7 @@ const SelectFilter = ({ items }) => {
   const [selectedValue, setSelectedValue] = React.useState(order.key)
 
   const handleChange = (itemValue) => {
-    dispatch({ type: itemValue })
+    dispatch({ type: itemValue, payload: order.variables.searchKeyword })
     setSelectedValue(itemValue)
   }
 

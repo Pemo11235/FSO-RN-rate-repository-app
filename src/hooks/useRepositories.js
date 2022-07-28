@@ -7,8 +7,6 @@ const useRepositories = (orderBy, orderDirection, searchKeyword) => {
     variables: { orderBy, orderDirection, searchKeyword },
     fetchPolicy: 'cache-and-network',
   })
-  console.log('useRepositories', searchKeyword)
-
   const refetchRepositories = React.useCallback(
     (variables) => {
       refetch(variables)

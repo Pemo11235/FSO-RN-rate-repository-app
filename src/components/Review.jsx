@@ -28,7 +28,6 @@ const Review = () => {
   })
 
   const onSubmit = async (values) => {
-    console.log('before submit', values)
     const repositoriesId = await createReviewWithReview(values)
     navigate(`/${repositoriesId}`)
   }
