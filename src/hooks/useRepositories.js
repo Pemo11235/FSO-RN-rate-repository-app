@@ -1,13 +1,13 @@
 import { useQuery } from '@apollo/client'
 import React from 'react'
 import { GET_REPOSITORIES } from '../graphql/queries'
-import { useSelectOrder } from './useSelectOrder'
 
-const useRepositories = (orderBy, orderDirection) => {
+const useRepositories = (orderBy, orderDirection, searchKeyword) => {
   const { data, loading, error, refetch } = useQuery(GET_REPOSITORIES, {
-    variables: { orderBy, orderDirection },
+    variables: { orderBy, orderDirection, searchKeyword },
     fetchPolicy: 'cache-and-network',
   })
+  console.log('useRepositories', searchKeyword)
 
   const refetchRepositories = React.useCallback(
     (variables) => {

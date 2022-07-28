@@ -1,16 +1,13 @@
-import { useApolloClient } from '@apollo/client'
 import { Picker } from '@react-native-picker/picker'
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import { useSelectOrder } from '../hooks/useSelectOrder'
-import theme from '../theme'
-import Button from './Button'
 
 const SelectFilter = ({ items }) => {
   const { state: order, dispatch } = useSelectOrder()
   const [selectedValue, setSelectedValue] = React.useState(order.key)
 
-  const handleChange = (itemValue, itemIndex) => {
+  const handleChange = (itemValue) => {
     dispatch({ type: itemValue })
     setSelectedValue(itemValue)
   }

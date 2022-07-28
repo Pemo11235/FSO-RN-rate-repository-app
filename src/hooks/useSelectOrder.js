@@ -4,6 +4,7 @@ import { ORDER_BY, ORDER_DIRECTION } from '../utils/orderRepository'
 const SelectOrderContext = React.createContext()
 
 function selectOrderReudcer(state, action) {
+  console.log('selectOrderReudcer', state, action)
   switch (action.type) {
     case 'LATEST_REPOSITORIES': {
       return {
@@ -12,7 +13,9 @@ function selectOrderReudcer(state, action) {
         variables: {
           orderBy: ORDER_BY.CREATED_AT,
           orderDirection: ORDER_DIRECTION.DESC,
+          ...state.variables,
         },
+        ...state,
       }
     }
     case 'HIGHEST_RATED_REPOSITORIES': {
@@ -22,7 +25,9 @@ function selectOrderReudcer(state, action) {
         variables: {
           orderBy: ORDER_BY.RATING_AVERAGE,
           orderDirection: ORDER_DIRECTION.DESC,
+          ...state.variables,
         },
+        ...state,
       }
     }
     case 'LOWEST_RATED_REPOSITORIES': {
@@ -32,6 +37,16 @@ function selectOrderReudcer(state, action) {
         variables: {
           orderBy: ORDER_BY.RATING_AVERAGE,
           orderDirection: ORDER_DIRECTION.ASC,
+          ...state.variables,
+        },
+      }
+    }
+    case 'SET_SEARCH_KEYWORD': {
+      return {
+        ...state,
+        variables: {
+          ...state.variables,
+          searchKeyword: action.payload,
         },
       }
     }
@@ -47,6 +62,7 @@ function SelectOrderProvider({ children }) {
     variables: {
       orderBy: ORDER_BY.CREATED_AT,
       orderDirection: ORDER_DIRECTION.DESC,
+      searchKeyword: '',
     },
   })
 

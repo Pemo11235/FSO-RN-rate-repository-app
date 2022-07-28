@@ -1,7 +1,8 @@
-import { Image, View, StyleSheet, Linking } from 'react-native'
+import { Image, View, StyleSheet, Linking, Pressable } from 'react-native'
 import Text from './Text'
 import theme from '../theme'
 import Button from './Button'
+import { useNavigate } from 'react-router-native'
 
 const styles = StyleSheet.create({
   container: {
@@ -82,33 +83,39 @@ const RepositoryItem = ({ repository, isSelected = false }) => {
     ownerAvatarUrl,
     url,
   } = repository
+  const navigate = useNavigate()
 
   return (
-    <View testID='repository-item' key={id} style={styles.container}>
-      <View style={styles.firstRow}>
-        <View style={styles.leftColumn}>
-          <Image source={{ uri: ownerAvatarUrl }} style={styles.image} />
+    <Pressable onPress={() => navigate(`/${id}`)}>
+      <View testID='repository-item' key={id} style={styles.container}>
+        <View style={styles.firstRow}>
+          <View style={styles.leftColumn}>
+            <Image source={{ uri: ownerAvatarUrl }} style={styles.image} />
+          </View>
+          <View style={styles.rightColumn}>
+            <Text style={styles.title}>{fullName}</Text>
+            <Text style={styles.description}>{description}</Text>
+            <Text>
+              <View style={styles.tagContainer}>
+                <Text style={styles.language}>{language}</Text>
+              </View>
+            </Text>
+          </View>
         </View>
-        <View style={styles.rightColumn}>
-          <Text style={styles.title}>{fullName}</Text>
-          <Text style={styles.description}>{description}</Text>
-          <Text>
-            <View style={styles.tagContainer}>
-              <Text style={styles.language}>{language}</Text>
-            </View>
-          </Text>
+        <View style={styles.secondRow}>
+          <RepositorySecondRowData label='Stars' value={stargazersCount} />
+          <RepositorySecondRowData label='Forks' value={forksCount} />
+          <RepositorySecondRowData label='Reviews' value={reviewCount} />
+          <RepositorySecondRowData label='Rating' value={ratingAverage} />
         </View>
+        {isSelected && (
+          <Button
+            label={'Open on GitHub'}
+            onPress={() => Linking.openURL(url)}
+          />
+        )}
       </View>
-      <View style={styles.secondRow}>
-        <RepositorySecondRowData label='Stars' value={stargazersCount} />
-        <RepositorySecondRowData label='Forks' value={forksCount} />
-        <RepositorySecondRowData label='Reviews' value={reviewCount} />
-        <RepositorySecondRowData label='Rating' value={ratingAverage} />
-      </View>
-      {isSelected && (
-        <Button label={'Open on GitHub'} onPress={() => Linking.openURL(url)} />
-      )}
-    </View>
+    </Pressable>
   )
 }
 
