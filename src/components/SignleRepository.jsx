@@ -62,9 +62,24 @@ const styles = StyleSheet.create({
 })
 const SingleRepository = () => {
   const { repositoryId } = useParams()
-  const { data, loading } = useQuery(GET_REPOSITORY, {
-    variables: { id: repositoryId },
+  const { data, loading, fetchMore } = useQuery(GET_REPOSITORY, {
+    variables: { id: repositoryId, first: 4 },
   })
+
+  const handleFetchMore = () => {
+    const canFetchMore =
+      !loading && data?.repository.reviews.pageInfo.hasNextPage
+
+    if (!canFetchMore) return
+
+    console.log('fetchMore')
+    fetchMore({
+      variables: {
+        id: repositoryId,
+        after: data?.repository.reviews.pageInfo.endCursor,
+      },
+    })
+  }
 
   const repository = data?.repository
   const reviews = repository
@@ -79,6 +94,8 @@ const SingleRepository = () => {
         keyExtractor={({ id }) => id}
         ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
         ItemSeparatorComponent={() => <ItemSeparator />}
+        onEndReachedThreshold={0.5}
+        onEndReached={handleFetchMore}
       />
     )
   )
