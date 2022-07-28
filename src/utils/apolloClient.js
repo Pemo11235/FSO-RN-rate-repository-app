@@ -1,12 +1,23 @@
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client'
-import Constants from 'expo-constants'
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+import { relayStylePagination } from '@apollo/client/utilities'
+import Constants from 'expo-constants'
 
 const { apolloUri } = Constants.manifest.extra
 
 const httpLink = createHttpLink({
   // Replace the IP address part with your own IP address!
   uri: apolloUri,
+})
+
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        repositories: relayStylePagination(),
+      },
+    },
+  },
 })
 const createApolloClient = (authStorage) => {
   const authLink = setContext(async (_, { headers }) => {
@@ -27,7 +38,7 @@ const createApolloClient = (authStorage) => {
   })
   return new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
+    cache,
   })
 }
 
