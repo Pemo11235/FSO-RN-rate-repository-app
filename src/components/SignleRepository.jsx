@@ -105,8 +105,8 @@ const RepositoryInfo = ({ repository }) => {
   return <RepositoryItem repository={repository} isSelected />
 }
 
-const ItemSeparator = () => <View style={styles.separator} />
-const ReviewItem = ({ review }) => {
+export const ItemSeparator = () => <View style={styles.separator} />
+export const ReviewItem = ({ review }) => {
   const {
     rating,
     text,

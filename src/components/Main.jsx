@@ -5,11 +5,12 @@ import { AUTHETICATED } from '../graphql/queries'
 import theme from '../theme'
 import AppBar from './AppBar'
 import RepositoryList from './RepositoryList'
-import SingleRepository from './SignleRepository'
-import SignIn from './SignIn'
-import SignOut from './SignOut'
 import Review from './Review'
+import SignIn from './SignIn'
+import SingleRepository from './SignleRepository'
+import SignOut from './SignOut'
 import SignUp from './SignUp'
+import UserReviews from './UserReviews'
 
 const styles = StyleSheet.create({
   container: {
@@ -45,6 +46,7 @@ const Main = () => {
         <Route path={'/repositories'} element={<RepositoryList />} exact />
         <Route path={'/:repositoryId'} element={<SingleRepository />} exact />
         <Route path={'/createreview'} element={<Review />} exact />
+        <Route path={'/myreviews'} element={<UserReviews />} exact />
       </Routes>
     </View>
   )

@@ -76,9 +76,31 @@ export const GET_REPOSITORY = gql`
   }
 `
 export const AUTHETICATED = gql`
-  query {
+  query ($includeReviews: Boolean = false) {
     me {
       username
+      reviews @include(if: $includeReviews) {
+        totalCount
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            repositoryId
+            user {
+              id
+              username
+            }
+          }
+          cursor
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
+        }
+      }
     }
   }
 `

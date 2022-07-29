@@ -1,9 +1,9 @@
-import { View, StyleSheet, ScrollView } from 'react-native'
-import Constants from 'expo-constants'
-import AppBarTab from './AppBarTab'
-import theme from '../theme'
 import { useQuery } from '@apollo/client'
+import Constants from 'expo-constants'
+import { ScrollView, StyleSheet, View } from 'react-native'
 import { AUTHETICATED } from '../graphql/queries'
+import theme from '../theme'
+import AppBarTab from './AppBarTab'
 
 const styles = StyleSheet.create({
   container: {
@@ -27,6 +27,7 @@ const AppBar = () => {
         {isLoggedIn && <AppBarTab label={'Create Review'} />}
         {!isLoggedIn && <AppBarTab label={'Sign In'} />}
         {!isLoggedIn && <AppBarTab label={'Sign Up'} />}
+        {isLoggedIn && <AppBarTab label={'My Reviews'} />}
         {isLoggedIn && <AppBarTab label={'Sign Out'} />}
       </ScrollView>
     </View>
