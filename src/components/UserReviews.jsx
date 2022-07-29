@@ -4,20 +4,20 @@ import { AUTHETICATED } from '../graphql/queries'
 import { ItemSeparator, ReviewItem } from './SignleRepository'
 
 const UserReviews = () => {
-  const { data } = useQuery(AUTHETICATED, {
+  const { data, refetch } = useQuery(AUTHETICATED, {
     variables: { includeReviews: true },
     fetchPolicy: 'cache-and-network',
   })
 
   const reviews = data?.me ? data.me.reviews.edges.map((edge) => edge.node) : []
 
-  console.log(reviews)
-
   return (
     <View>
       <FlatList
         data={reviews}
-        renderItem={({ item }) => <ReviewItem review={item} />}
+        renderItem={({ item }) => (
+          <ReviewItem review={item} privateSection refetch={refetch} />
+        )}
         keyExtractor={({ id }) => id}
         ItemSeparatorComponent={() => <ItemSeparator />}
       />

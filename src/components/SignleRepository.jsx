@@ -1,9 +1,11 @@
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { format } from 'date-fns'
-import { FlatList, StyleSheet, View } from 'react-native'
-import { useParams } from 'react-router-native'
+import { Alert, FlatList, StyleSheet, View } from 'react-native'
+import { useNavigate, useParams } from 'react-router-native'
+import { DELETE_REVIEW } from '../graphql/mutations'
 import { GET_REPOSITORY } from '../graphql/queries'
 import theme from '../theme'
+import Button from './Button'
 import RepositoryItem from './RepositoryItem'
 import Text from './Text'
 
@@ -59,6 +61,18 @@ const styles = StyleSheet.create({
   separator: {
     height: 10,
   },
+  deleteButton: {
+    backgroundColor: theme.colors.error,
+  },
+  ctaLabel: {
+    fontSize: theme.fontSizes.h3,
+    padding: theme.spacing.small,
+  },
+  secondRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingHorizontal: theme.spacing.medium,
+  },
 })
 const SingleRepository = () => {
   const { repositoryId } = useParams()
@@ -72,7 +86,6 @@ const SingleRepository = () => {
 
     if (!canFetchMore) return
 
-    console.log('fetchMore')
     fetchMore({
       variables: {
         id: repositoryId,
@@ -106,13 +119,39 @@ const RepositoryInfo = ({ repository }) => {
 }
 
 export const ItemSeparator = () => <View style={styles.separator} />
-export const ReviewItem = ({ review }) => {
+export const ReviewItem = ({ review, privateSection = false, refetch }) => {
+  const navigate = useNavigate()
+  const [deleteReview] = useMutation(DELETE_REVIEW)
+
   const {
+    id: deleteReviewId,
+    repositoryId,
     rating,
     text,
     createdAt: date,
     user: { username },
   } = review
+
+  const handleDelete = () => {
+    deleteReview({ variables: { deleteReviewId } })
+    Alert.alert('Review deleted', 'Your review has been deleted')
+    refetch()
+  }
+
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      'Delete review',
+      'Are you sure you want to delte this review?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        { text: 'Delete', onPress: handleDelete },
+      ]
+    )
+
   return (
     <View style={styles.container}>
       <View style={styles.firstRow}>
@@ -122,13 +161,33 @@ export const ReviewItem = ({ review }) => {
           </View>
         </View>
         <View style={styles.rightColumn}>
-          <Text style={styles.username}>{username}</Text>
+          {privateSection && (
+            <Text style={styles.username}>
+              {repositoryId.replace('.', '/')}
+            </Text>
+          )}
+          {!privateSection && <Text style={styles.username}>{username}</Text>}
           <Text style={styles.date}>
             {format(new Date(date), 'dd.MM.yyyy')}
           </Text>
           <Text style={styles.text}>{text}</Text>
         </View>
       </View>
+      {privateSection && (
+        <View style={styles.secondRow}>
+          <Button
+            label={'View Repository'}
+            labelStyle={styles.ctaLabel}
+            onPress={() => navigate(`/${repositoryId}`)}
+          />
+          <Button
+            label={'Delete Review'}
+            style={styles.deleteButton}
+            labelStyle={styles.ctaLabel}
+            onPress={createTwoButtonAlert}
+          />
+        </View>
+      )}
     </View>
   )
 }

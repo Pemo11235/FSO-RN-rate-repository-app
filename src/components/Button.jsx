@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
 })
 
 const Button = ({ label, style, labelStyle, ...props }) => {
-  const buttonStyle = [style, styles.wrapper]
-  const buttonLabelStyle = [labelStyle, styles.label]
+  const buttonStyle = [styles.wrapper, style]
+  const buttonLabelStyle = [styles.label, labelStyle]
 
   return (
     <Pressable style={buttonStyle} {...props}>
